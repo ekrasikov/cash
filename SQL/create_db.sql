@@ -9,7 +9,7 @@ create table categories (
 );
 
 CREATE TABLE expenses (
-	id INT PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	date DATE NOT NULL,
 	user_id INT REFERENCES users(id),
 	category_id INT REFERENCES categories(id),
