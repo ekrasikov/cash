@@ -16,45 +16,21 @@ def connect(host, dbname, user, password="", port=5432):
     conn_str = "host='{0}' dbname='{1}' user='{2}' password='{3}' port={4}".format(
         host, dbname, user, password, port)
     logger.info("Connecting to DB, connstr is {}".format(conn_str))
-    try:
-        conn = psycopg2.connect(conn_str)
-    except:
-        return logger.error("Cannot create a DB connection.\n{}".format(
-            traceback.format_exc()))
+    conn = psycopg2.connect(conn_str)
     conn.autocommit = True
     return conn
 
 def query(query, params, host, dbname, user, password=""):
     """Makes query to DB."""
     results=""
-    try:
-        conn = connect(host, dbname, user, password)
-        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    conn = connect(host, dbname, user, password)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-        logger.info("Executing query {}".format(query))
-        try:
-            cursor.execute(query, params)
-        except:
-            return logger.error("Cannot execute cursor.\n{}".format(
-                traceback.format_exc()))
+    logger.info("Executing query {}".format(query))
+    cursor.execute(query, params)
 
-        if(query[0]=='S'):
-            try:
-                results = cursor.fetchall()
-                cursor.close()
-            except:
-                return logger.error("Cannot retrieve query data.\n{}".format(
-                    traceback.format_exc()))
+    if(query[0]=='S'):
+        results = cursor.fetchall()
+        cursor.close()
 
-        return(results)
-
-
-    except:
-        return logger.error("Cannot connect to database.\n{}".format(
-            traceback.format_exc()))
-
-    finally:
-        try:
-            conn.close()
-        except:
-            pass
+    return(results)

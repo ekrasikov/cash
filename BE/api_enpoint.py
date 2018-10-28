@@ -42,11 +42,11 @@ def return_ok():
 
 @app.route(ROOT_URL + '/expenses', methods=['GET'])
 def get_expenses():
-    try:
-        res = expenses.get_expenses()
-    except:
-        return logger.error("Cannot create a DB connection.\n{}".format(
+    res = expenses.get_expenses()
+    if (not res):
+        logger.error("Cannot load expenses from DB.\n{}".format(
             traceback.format_exc()))
+        return Response('{"message": "Cannot load expenses from DB"}', status=500, mimetype='application/json')
     else:
         return Response(res, status=200, mimetype='application/json')
 
@@ -60,17 +60,14 @@ def post_expense():
                 traceback.format_exc()))
             return Response('{"message": "Cannot parse JSON request"}', status=400, mimetype='application/json')
     else:
-        logger.error("Received request is not JSON")
+        logger.error("Received request body is not JSON")
         return Response('{"message": "Received request body is not JSON"}', status=400, mimetype='application/json')
 
-    try:
-        add_expense(content)
-    except:
-        logger.error("Cannot add expense to DB: {}".format(
-                traceback.format_exc()))
-        return Response('{"message": "Cannot add expense to DB"}', status=500, mimetype='application/json')
-    else:
+    if expenses.add_expense(content):
         return Response('{"message": "OK"}', status=200, mimetype='application/json')
+    else:
+        logger.error("Cannot add expense to DB")
+        return Response('{"message": "Cannot add expense to DB"}', status=500, mimetype='application/json')
 
 
 if __name__ == '__main__':

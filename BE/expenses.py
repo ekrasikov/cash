@@ -19,7 +19,7 @@ def get_expenses(limit=15):
     except:
         logger.error("Cannot retrieve expenses from DB: {}".format(
             traceback.format_exc()))
-        return json.dumps("")
+        return False
 
 def add_expense(expense):
     """Adds expense to database."""
@@ -32,5 +32,8 @@ def add_expense(expense):
     try:
         db.query(query, expense, host, dbname, user)
     except:
-        logger.error("Cannot save expense to DB: {}".format(
+        logger.error("Cannot add expense to DB: {}".format(
             traceback.format_exc()))
+        return False
+    else:
+        return True
