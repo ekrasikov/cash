@@ -10,8 +10,13 @@ Vue.component('expense-form', {
 
             <div class="field">
                 <div class="control">
-                    <div class="input is-large select" v-model="category">
-                        
+                    <div class="select is-large is-fullwidth">
+                        <select v-model="category">
+                            <option disabled value="">Please select a category</option>
+                            <option v-for="item in categories">
+                                {{ item }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -58,6 +63,10 @@ new Vue({
     el: "#root",
     methods: {
         addExpense(expense) {
+            if( expense.category == "" ) {
+                alert('Please select a category');
+                return;
+            }
 //            axios.post('/expenses', {
 //                amount: amount,
 //                category: category,
@@ -71,7 +80,7 @@ new Vue({
 //            .catch(function (error) {
 //                console.log(error);
 //            })
-            alert('You spent ' + expense.amount + ' EUR on ' + expense.date)
+            alert('You spent ' + expense.amount + ' EUR on ' + expense.date);
         },
         loadExpenseCategories() {
 //            axios.get('/expense_categories')
