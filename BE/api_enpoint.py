@@ -1,0 +1,5 @@
+endpoint = environ.get('ENDPOINT')
+        port = environ.get('PORT')
+        dbuser = environ.get('DBUSER')
+        password = environ.get('DBPASSWORD')
+        database = environ.get('DATABASE')
