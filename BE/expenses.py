@@ -5,19 +5,21 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def get_expenses(db_params, limit=15):
-    """Returns expenses in JSON format."""
-    tablename = 'expenses'
-    query = 'SELECT * FROM {} ORDER BY date DESC, id DESC LIMIT {};'.format(tablename, limit)
+def get_data(tablename, db_params, limit=20):
+    """Returns expenses/categories/users in JSON format."""
+    if tablename == "expenses":
+        query = 'SELECT expenses.id, expenses.date, users.name AS user, categories.name AS category, amount, comment \
+                FROM expenses, categories, users WHERE category_id = categories.id AND user_id = users.id \
+                ORDER BY date DESC, expenses.id DESC LIMIT {};'.format(limit)
+    else:
+        query = 'SELECT * FROM {} ORDER BY id;'.format(tablename)
 
     try:
-        expenses = db.query(query, '', db_params["host"], db_params["dbname"], db_params["user"], db_params["password"])
-        return json.dumps(expenses, default=db.date_converter)
+        result = db.query(query, '', db_params["host"], db_params["dbname"], db_params["user"], db_params["password"])
+        return json.dumps(result, default=db.date_converter)
     except:
-        logger.error("Cannot retrieve expenses from DB: {}".format(
-            traceback.format_exc()))
+        logger.error("Cannot retrieve {} from DB: {}".format(tablename, traceback.format_exc()))
         return False
-
 
 def add_expense(expense, db_params):
     """Adds expense to database."""

@@ -47,15 +47,17 @@ db_params = {
 def return_ok():
     return("OK")
 
+
 @app.route(ROOT_URL + '/expenses', methods=['GET'])
 def get_expenses():
-    res = expenses.get_expenses(db_params)
+    res = expenses.get_data("expenses", db_params)
     if (not res):
         logger.error("Cannot load expenses from DB.\n{}".format(
             traceback.format_exc()))
         return Response('{"message": "Cannot load expenses from DB"}', status=500, mimetype='application/json')
     else:
         return Response(res, status=200, mimetype='application/json')
+
 
 @app.route(ROOT_URL + '/expenses', methods=['POST'])
 def post_expense():
@@ -76,6 +78,7 @@ def post_expense():
         logger.error("Cannot add expense to DB")
         return Response('{"message": "Cannot add expense to DB"}', status=500, mimetype='application/json')
 
+
 @app.route(ROOT_URL + '/expenses/<int:expense_id>', methods=['DELETE'])
 def delete_expense(expense_id):
     if expenses.delete_expense(expense_id, db_params):
@@ -83,6 +86,28 @@ def delete_expense(expense_id):
     else:
         logger.error("Cannot delete expense from DB")
         return Response('{"message": "Cannot delete expense from DB"}', status=500, mimetype='application/json')
+
+
+@app.route(ROOT_URL + '/categories', methods=['GET'])
+def get_categories():
+    res = expenses.get_data("categories", db_params)
+    if (not res):
+        logger.error("Cannot load categories from DB.\n{}".format(
+            traceback.format_exc()))
+        return Response('{"message": "Cannot load categories from DB"}', status=500, mimetype='application/json')
+    else:
+        return Response(res, status=200, mimetype='application/json')
+
+
+@app.route(ROOT_URL + '/users', methods=['GET'])
+def get_users():
+    res = expenses.get_data("users", db_params)
+    if (not res):
+        logger.error("Cannot load users from DB.\n{}".format(
+            traceback.format_exc()))
+        return Response('{"message": "Cannot load users from DB"}', status=500, mimetype='application/json')
+    else:
+        return Response(res, status=200, mimetype='application/json')
 
 
 if __name__ == '__main__':
