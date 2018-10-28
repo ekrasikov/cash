@@ -35,6 +35,13 @@ app = Flask(__name__, static_url_path='/static')
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+db_params = {
+    "host": "127.0.0.1",
+    "dbname": "expensedb",
+    "user": "expenserole",
+    "password": ""
+}
+
 
 @app.route(ROOT_URL, methods=['GET'])
 def return_ok():
@@ -42,7 +49,7 @@ def return_ok():
 
 @app.route(ROOT_URL + '/expenses', methods=['GET'])
 def get_expenses():
-    res = expenses.get_expenses()
+    res = expenses.get_expenses(db_params)
     if (not res):
         logger.error("Cannot load expenses from DB.\n{}".format(
             traceback.format_exc()))
@@ -63,11 +70,19 @@ def post_expense():
         logger.error("Received request body is not JSON")
         return Response('{"message": "Received request body is not JSON"}', status=400, mimetype='application/json')
 
-    if expenses.add_expense(content):
+    if expenses.add_expense(content, db_params):
         return Response('{"message": "OK"}', status=200, mimetype='application/json')
     else:
         logger.error("Cannot add expense to DB")
         return Response('{"message": "Cannot add expense to DB"}', status=500, mimetype='application/json')
+
+@app.route(ROOT_URL + '/expenses/<int:expense_id>', methods=['DELETE'])
+def delete_expense(expense_id):
+    if expenses.delete_expense(expense_id, db_params):
+        return Response('{"message": "OK"}', status=200, mimetype='application/json')
+    else:
+        logger.error("Cannot delete expense from DB")
+        return Response('{"message": "Cannot delete expense from DB"}', status=500, mimetype='application/json')
 
 
 if __name__ == '__main__':

@@ -2,7 +2,6 @@ import psycopg2
 import psycopg2.extras
 import logging
 import datetime
-import traceback
 
 logger = logging.getLogger(__name__)
 
