@@ -5,10 +5,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def get_expenses(limit=50):
+def get_expenses(limit=15):
     """Returns expenses in JSON format."""
     tablename = 'expenses'
-    query = 'SELECT * FROM {} LIMIT {};'.format(tablename, limit)
+    query = 'SELECT * FROM {} ORDER BY date DESC, id DESC LIMIT {};'.format(tablename, limit)
     host = '127.0.0.1'
     dbname = 'expensedb'
     user = 'expenserole'

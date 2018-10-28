@@ -43,7 +43,7 @@ def query(query, params, host, dbname, user, password=""):
                 results = cursor.fetchall()
                 cursor.close()
             except:
-                return logger.error("ERROR: Cannot retrieve query data.\n{}".format(
+                return logger.error("Cannot retrieve query data.\n{}".format(
                     traceback.format_exc()))
 
         return(results)
