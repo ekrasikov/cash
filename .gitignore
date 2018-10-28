@@ -1,5 +1,7 @@
 FE/venv
-FE/venv
-BE/__pycache__
-BE/.idea
-.DS_Store
+FE/venv/*
+BE/venv
+BE/venv/*
+BE/__pycache__*
+BE/.idea*
+.DS_Store*
