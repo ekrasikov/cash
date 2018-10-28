@@ -16,4 +16,4 @@ test_expense = {
     "comment": "Hose"
 }
 
-expenses.add_expense(test_expense)
+#expenses.add_expense(test_expense)

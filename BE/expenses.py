@@ -13,7 +13,6 @@ def get_expenses(limit=50):
     dbname = 'expensedb'
     user = 'expenserole'
 
-
     try:
         expenses = db.query(query, '', host, dbname, user)
         return json.dumps(expenses, default=db.date_converter)
