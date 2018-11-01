@@ -24,6 +24,7 @@ POST http://[hostname/]/cash/v1/expenses
 """
 
 from flask import Flask, abort, jsonify, request, flash, Response
+from flask_cors import CORS
 import expenses
 import logging
 import traceback
@@ -32,6 +33,8 @@ import sys
 ROOT_URL = "/cash/v1"
 
 app = Flask(__name__, static_url_path='/static')
+CORS(app)
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
