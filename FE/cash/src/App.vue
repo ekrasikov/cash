@@ -91,5 +91,4 @@ export default {
 
 <style lang="css">
     @import '../node_modules/bulma/css/bulma.css';
-    @import '../node_modules/bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.min.css'
 </style>
