@@ -12,7 +12,8 @@
                     </p>
                     <div class="box">
                         <expense-form @form-submitted="addExpense"
-                                      :categories="this.loadExpenseCategories()">
+                                      :categories="this.loadExpenseCategories()"
+                                      :users="this.loadUsers()">
                         </expense-form>
                     </div>
                 </div>
@@ -72,6 +73,19 @@ export default {
           console.log(error);
       });
       return result;
+    },
+    loadUsers() {
+      let result = []
+      HTTP.get('/users')
+      .then(function (response) {
+        response.data.forEach(function(item, index, array) {
+          result.push(item)
+        });
+      })
+      .catch(function (error) {
+          console.log(error)
+      });
+      return result
     }
   }
 }
@@ -79,4 +93,5 @@ export default {
 
 <style lang="css">
     @import '../node_modules/bulma/css/bulma.css';
+    @import '../node_modules/bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.min.css'
 </style>

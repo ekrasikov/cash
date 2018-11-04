@@ -3,6 +3,15 @@
         <form>
             <div class="field">
                 <div class="control">
+                    <label v-for="user in usersList" class="radio" :key="user.id">
+                        <input type="radio" name="user" v-model="selectedUser" :value="user.id">
+                        {{ user.name }}
+                    </label>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
                     <input class="input is-large" placeholder="0.00 EUR" autofocus="" v-model="amount">
                 </div>
             </div>
@@ -49,12 +58,14 @@ export default {
    components: {
      Datepicker
    },
-   props: [ "categories" ],
+   props: [ "categories", "users" ],
    data() {
        return {
             amount: "",
             categoriesList: this.categories,
+            usersList: this.users,
             selectedCategory: 1,
+            selectedUser: 1,
             date: (new Date()).toString(),
             comment: ""
        }
