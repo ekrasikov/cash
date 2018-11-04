@@ -1,5 +1,6 @@
 FE/venv
 FE/venv/*
+FE/.DS_Store
 BE/venv
 BE/venv/*
 BE/__pycache__*
