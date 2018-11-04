@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form>
+        <form v-on:submit.prevent="onSubmit">
             <div class="field">
                 <div class="control">
                     <label v-for="user in usersList" class="radio" :key="user.id">
@@ -59,6 +59,14 @@ export default {
      Datepicker
    },
    props: [ "categories", "users" ],
+   computed: {
+       payload: () => {
+           let payload = {
+
+           }
+           return JSON.stringify(payload)
+       }
+   },
    data() {
        return {
             amount: "",
@@ -71,6 +79,12 @@ export default {
        }
    },
    methods: {
+       onSubmit() {
+           this.amount = 0
+           this.selectedUser = 1
+           this.selectedCategory = 1
+           this.comment = ""
+       }
    }
 }
 </script>

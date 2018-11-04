@@ -42,24 +42,22 @@ export default {
   },
   methods: {
     addExpense(expense) {
-        if( expense.selectedCategory == "" ) {
-            alert('Please select a category');
-            return;
+        let payload = {
+            "date": expense.date,
+            "user_id": expense.selectedUser,
+            "category_id": expense.selectedCategory,
+            "amount": expense.amount,
+            "comment": expense.comment
         }
-//            axios.post('/expenses', {
-//                amount: amount,
-//                category: category,
-//                date: date, //ISO format
-//                comment: comment,
-//                user: 'Masha'             
-//            })
-//            .then(function (response) {
-//                console.log(response);
-//            })
-//            .catch(function (error) {
-//                console.log(error);
-//            })
-        alert('You spent ' + expense.amount + ' EUR on ' + expense.date);
+        console.log(payload)
+        HTTP.post('/expenses', payload)
+        .then(function (response) {
+            //console.log(response);
+            alert("Expense successfully added")
+        })
+        .catch(function (error) {
+            alert(error)
+        })
     },
     loadExpenseCategories() {
       var result = [];
