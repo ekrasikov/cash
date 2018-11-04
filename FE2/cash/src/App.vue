@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     addExpense(expense) {
-        if( expense.category == "" ) {
+        if( expense.selectedCategory == "" ) {
             alert('Please select a category');
             return;
         }
@@ -65,7 +65,7 @@ export default {
       HTTP.get('/categories')
       .then(function (response) {
         response.data.forEach(function(item, index, array) {
-          result.push(item.name);
+          result.push(item);
         });
       })
       .catch(function (error) {

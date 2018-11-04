@@ -10,10 +10,10 @@
             <div class="field">
                 <div class="control">
                     <div class="select is-large is-fullwidth">
-                        <select v-model="category">
+                        <select v-model="selectedCategory">
                             <option disabled value="">Please select a category</option>
-                            <option v-for="item in categories">
-                                {{ item }}
+                            <option v-for="item in categories" :value="item.id" :key="item.id">
+                                {{ item.name }}
                             </option>
                         </select>
                     </div>
@@ -53,16 +53,12 @@ export default {
    data() {
        return {
             amount: "",
-            category: "",
+            selectedCategory: 0,
             date: (new Date()).toString(),
             comment: ""
        }
    },
    methods: {
-        updated() {
-            // to add - if supermarket in categories, then it, otherwise the first item
-            this.category = this.categories[0];
-        }  
    }
 }
 </script>
