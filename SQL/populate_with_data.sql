@@ -2,15 +2,22 @@ INSERT INTO users (id, name) VALUES (1, 'Masha');
 INSERT INTO users (id, name) VALUES (2, 'Eugene');
 
 INSERT INTO categories (id, name) VALUES (1, 'Supermarket');
-INSERT INTO categories (id, name) VALUES (2, 'Transport');
-INSERT INTO categories (id, name) VALUES (3, 'Lunch');
-INSERT INTO categories (id, name) VALUES (4, 'Beauty');
-INSERT INTO categories (id, name) VALUES (5, 'Bike');
-INSERT INTO categories (id, name) VALUES (6, 'Restaraunts');
-INSERT INTO categories (id, name) VALUES (7, 'Household');
-INSERT INTO categories (id, name) VALUES (8, 'Apartment rental');
+INSERT INTO categories (id, name) VALUES (2, 'Lunch');
+INSERT INTO categories (id, name) VALUES (3, 'Transport');
+INSERT INTO categories (id, name) VALUES (4, 'Household');
+INSERT INTO categories (id, name) VALUES (5, 'Restaraunts');
+INSERT INTO categories (id, name) VALUES (6, 'Entertainment');
+INSERT INTO categories (id, name) VALUES (7, 'Beauty');
+INSERT INTO categories (id, name) VALUES (8, 'Apps and communnications');
 INSERT INTO categories (id, name) VALUES (9, 'Clothes');
-INSERT INTO categories (id, name) VALUES (10, 'Telco');
+INSERT INTO categories (id, name) VALUES (10, 'Bike');
+INSERT INTO categories (id, name) VALUES (11, 'Travel');
+INSERT INTO categories (id, name) VALUES (12, 'Car');
+INSERT INTO categories (id, name) VALUES (13, 'Therapist');
+INSERT INTO categories (id, name) VALUES (14, 'Parents');
+INSERT INTO categories (id, name) VALUES (15, 'Apartment rental');
+INSERT INTO categories (id, name) VALUES (16, 'Medicine');
+INSERT INTO categories (id, name) VALUES (17, 'Courses');
 INSERT INTO categories (id, name) VALUES (50, 'Other');
 
 INSERT INTO expenses (date, user_id, category_id, amount, comment) VALUES (
