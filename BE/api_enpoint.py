@@ -29,6 +29,7 @@ import expenses
 import logging
 import traceback
 import sys
+import os
 
 ROOT_URL = "/cash/v1"
 
@@ -38,11 +39,16 @@ CORS(app)
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+host = os.environ.get('CASH_DB_HOST')
+dbname = os.environ.get('CASH_DB_NAME')
+user = os.environ.get('CASH_DB_USER')
+password = os.environ.get('CASH_DB_PASSWORD')
+
 db_params = {
-    "host": "127.0.0.1",
-    "dbname": "expensedb",
-    "user": "expenserole",
-    "password": ""
+    "host": host,
+    "dbname": dbname,
+    "user": user,
+    "password": password
 }
 
 
