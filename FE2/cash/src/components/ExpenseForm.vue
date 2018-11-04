@@ -11,8 +11,8 @@
                 <div class="control">
                     <div class="select is-large is-fullwidth">
                         <select v-model="selectedCategory">
-                            <option disabled value="">Please select a category</option>
-                            <option v-for="item in categories" :value="item.id" :key="item.id">
+                            <!--<option disabled value="">Please select a category</option>-->
+                            <option v-for="item in categoriesList" :value="item.id" :key="item.id">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -53,7 +53,8 @@ export default {
    data() {
        return {
             amount: "",
-            selectedCategory: 0,
+            categoriesList: this.categories,
+            selectedCategory: 1,
             date: (new Date()).toString(),
             comment: ""
        }
