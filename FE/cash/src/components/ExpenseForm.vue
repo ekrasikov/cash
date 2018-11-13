@@ -32,7 +32,7 @@
             <div class="field">
                 <div class="control">
                     <datepicker class="is-large" placeholder="Select date" v-model="date" 
-                        :config="{ dateFormat: 'd-m-Y'}">
+                        :config="{ dateFormat: 'Y-m-d'}">
                     </datepicker>
                 </div>
             </div>
