@@ -74,7 +74,7 @@ export default {
             usersList: this.users,
             selectedCategory: 1,
             selectedUser: 1,
-            date: (new Date()).toString(),
+            date: (new Date()).toISOString(),
             comment: ""
        }
    },
