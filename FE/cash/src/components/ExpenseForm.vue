@@ -12,7 +12,7 @@
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" placeholder="0.00 EUR" autofocus="" v-model="amount">
+                    <input class="input is-large" placeholder="0.00 EUR" autofocus="" v-model="amount" required>
                 </div>
             </div>
 
