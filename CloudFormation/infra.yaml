@@ -1,0 +1,166 @@
+Parameters:
+  DomainName:
+    Description: Enter domain name to use for the app
+    Type: String
+  # DBUser:
+  #   Description: DBuser
+  # DBPassword:
+  #   Description: Password
+  # BECodeArchive:
+  #   Description: BE application code bundle
+  # BECodeVersion:
+  #   Description: BE application version 
+  # FECodeArchive:
+  #   Description: FE application bundle
+
+Resources:
+  # VPC
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties: 
+      CidrBlock: 10.0.0.0/16
+  # Internet gateway
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:  
+      Tags:
+        - Key: Name
+          Value: igw-1
+  # Internet gateway attachment
+  MyIGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref MyInternetGateway
+      VpcId: !Ref MyVPC
+  # public route table
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVPC
+      Tags:
+      - Key: Name
+        Value: public-rt
+  # private route table
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVPC
+      Tags:
+      - Key: Name
+        Value: private-rt
+  # routes
+  MyRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MyIGWAttachment
+    Properties:
+      RouteTableId:
+        Ref: PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: MyInternetGateway
+  # private subnets
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: 'eu-central-1a'
+      CidrBlock: 10.0.101.0/24
+      MapPublicIpOnLaunch: false
+      VpcId:
+        Ref: MyVPC
+      Tags:
+        - Key: Name
+          Value: private-subnet-1
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: 'eu-central-1b'
+      CidrBlock: 10.0.102.0/24
+      MapPublicIpOnLaunch: false
+      VpcId:
+        Ref: MyVPC
+      Tags:
+        - Key: Name
+          Value: private-subnet-2
+  # public subnets
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: 'eu-central-1a'
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      VpcId:
+        Ref: MyVPC
+      Tags:
+        - Key: Name
+          Value: public-subnet-1
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: 'eu-central-1b'
+      CidrBlock: 10.0.2.0/24
+      MapPublicIpOnLaunch: true
+      VpcId:
+        Ref: MyVPC
+      Tags:
+        - Key: Name
+          Value: public-subnet-2
+  # subnet route table associations
+  PrivateSubnet1Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1
+  PrivateSubnet2Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet2
+  PublicSubnet1Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+  PublicSubnet2Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2
+  # security groups
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow PostgreSQL to RDS host from BE web-servers
+      VpcId:
+        Ref: MyVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        CidrIp: 0.0.0.0/0
+  PublicWebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to BE web servers
+      VpcId:
+        Ref: MyVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        SourceSecurityGroupId:
+          Ref: RDSSecurityGroup
+  # RDS instance
+  # S3 bucket
+  # Route53 zone
+
+# Outputs:
+#   RDSEndpoint:
+#     Description: RDS endpoint
+#     Value:
+#       !GetAtt
+#   S3Bucket:
+#     Description: S3 bucket for static content
+#     Value:
+#       !GetAtt
