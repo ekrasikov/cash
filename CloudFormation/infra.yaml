@@ -2,10 +2,13 @@ Parameters:
   DomainName:
     Description: Enter domain name to use for the app
     Type: String
-  # DBUser:
-  #   Description: DBuser
-  # DBPassword:
-  #   Description: Password
+  DBUser:
+    Description: DBuser
+    Type: String
+  DBPassword:
+    Description: DB Password
+    Type: String
+    NoEcho: true
   # BECodeArchive:
   #   Description: BE application code bundle
   # BECodeVersion:
@@ -151,16 +154,73 @@ Resources:
         ToPort: 80
         SourceSecurityGroupId:
           Ref: RDSSecurityGroup
+
+  # RDS DB parameter group
+  MyDBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties: 
+      Description: Parameter group for PosgtreSQL 10 - changed datestyle
+      Family: postgres10
+      Parameters:
+        datestyle: ISO,DMY
+  # RDS DB subnet group
+  MyRDSDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties: 
+      DBSubnetGroupDescription: Private db subnet group
+      DBSubnetGroupName: db-subnet-group-1
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
   # RDS instance
+  MyDB: 
+    Type: AWS::RDS::DBInstance
+    Properties: 
+      DBName: pgdb1
+      AllocatedStorage: 20
+      BackupRetentionPeriod: 7
+      DBInstanceClass: db.t2.micro
+      Engine: postgres
+      EngineVersion: 10.5
+      DBParameterGroupName: !Ref MyDBParameterGroup
+      DBSubnetGroupName: !Ref MyRDSDBSubnetGroup
+      MasterUsername: 
+        Ref: "DBUser"
+      MasterUserPassword: 
+        Ref: "DBPassword"
+      MultiAZ: false
+      VPCSecurityGroups: 
+        - !Ref RDSSecurityGroup
+      Tags: 
+        - Key: "Name"
+          Value: "pgdb1"
+  # Elastic beanstalk
+  
   # S3 bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Ref DomainName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
   # Route53 zone
 
-# Outputs:
+Outputs:
+  S3Bucket:
+    Description: S3 bucket for static content
+    Value: !Ref S3Bucket
+  WebsiteURL:
+    Value: !GetAtt [S3Bucket, WebsiteURL]
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value: !Join ['', ['https://', !GetAtt [S3Bucket, DomainName]]]
+    Description: Name of S3 bucket to hold website content
 #   RDSEndpoint:
 #     Description: RDS endpoint
 #     Value:
 #       !GetAtt
-#   S3Bucket:
-#     Description: S3 bucket for static content
-#     Value:
-#       !GetAtt
+
+
