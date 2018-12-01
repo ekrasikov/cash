@@ -1,24 +1,24 @@
 <template>
   <div id="app">
     <section class="hero is-light is-fullheight" id="root">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="column is-6 is-offset-3">
-                    <h3 class="title has-text-grey">
-                        Cash!
-                    </h3>
-                    <p class="subtitle has-text-grey">
-                        Simple expense app
-                    </p>
-                    <div class="box">
-                        <expense-form @form-submitted="addExpense"
-                                      :categories="this.loadExpenseCategories()"
-                                      :users="this.loadUsers()">
-                        </expense-form>
-                    </div>
-                </div>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="column is-6 is-offset-3">
+            <h3 class="title has-text-grey">
+                Cash!
+            </h3>
+            <p class="subtitle has-text-grey">
+                Simple expense app
+            </p>
+            <div class="box">
+                <expense-form @form-submitted="addExpense"
+                              :categories="this.loadExpenseCategories()"
+                              :users="this.loadUsers()">
+                </expense-form>
             </div>
+          </div>
         </div>
+      </div>
     </section>
   </div>
 </template>
