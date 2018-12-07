@@ -10,9 +10,20 @@
             <p class="subtitle has-text-grey">
                 Simple expense app
             </p>
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+              <div id="myNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                  <router-link to='/' class="navbar-item">
+                    Add expense
+                  </router-link>
+                  <router-link to='/list' class="navbar-item">
+                    List expenses
+                  </router-link>
+                </div>
+              </div>
+            </nav>
             <div class="box">
-                <expense-form>
-                </expense-form>
+                <router-view></router-view>
             </div>
           </div>
         </div>
@@ -23,8 +34,8 @@
 
 <script>
 
-import ExpenseForm from './components/ExpenseForm.vue';
-import ExpenseList from './components/ExpenseList.vue';
+import ExpenseForm from './components/ExpenseForm.vue'
+import ExpenseList from './components/ExpenseList.vue'
 
 export default {
   name: 'app',

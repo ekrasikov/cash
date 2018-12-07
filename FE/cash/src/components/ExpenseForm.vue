@@ -30,7 +30,7 @@
 
       <div class="field">
         <div class="control">
-          <datepicker class="is-large" placeholder="Select date" v-model="date" 
+          <datepicker class="is-large" placeholder="Select date" v-model="date"
             :config="{ dateFormat: 'Y-m-d'}">
           </datepicker>
         </div>
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-//import axios from 'axios'
 import Datepicker from 'vue-bulma-datepicker'
 import { HTTP } from '../http_common.js'
 
@@ -59,7 +58,7 @@ export default {
   components: {
     Datepicker
   },
-  data() {
+  data () {
     return {
       usersList: [],
       categoriesList: [],
@@ -67,34 +66,33 @@ export default {
       selectedCategory: 1,
       amount: 0,
       date: (new Date()).toISOString(),
-      comment: ""
+      comment: ''
     }
   },
   mounted: function () {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.categoriesList = this.loadExpenseCategories()
       this.usersList = this.loadUsersList()
     })
   },
   methods: {
-    onSubmit() {
-      
+    onSubmit () {
       this.addExpense()
     },
     loadExpenseCategories() {
-      let result = [];
+      let result = []
       HTTP.get('/categories')
-      .then(function (response) {
-        response.data.forEach( (item) => {
+        .then(function (response) {
+          response.data.forEach((item) => {
           result.push(item)
         })
       })
-      .catch(function (error) {
-        alert(error)
-      })
-      return result;
+        .catch(function (error) {
+          alert(error)
+        })
+      return result
     },
-    loadUsersList() {
+    loadUsersList () {
       let result = []
       HTTP.get('/users')
       .then(function (response) {
@@ -107,20 +105,20 @@ export default {
       });
       return result
     },
-    addExpense() {
+    addExpense () {
       let payload = {
-          "date": this.date,
-          "user_id": this.selectedUser,
-          "category_id": this.selectedCategory,
-          "amount": this.amount,
-          "comment": this.comment
+          'date': this.date,
+          'user_id': this.selectedUser,
+          'category_id': this.selectedCategory,
+          'amount': this.amount,
+          'comment': this.comment
       }
       HTTP.post('/expenses', payload)
       .then( () => {
         this.amount = 0
         this.selectedCategory = 1
-        this.comment = ""
-        alert("Expense successfully added")
+        this.comment = ''
+        alert('Expense successfully added')
         //reset necessary fields on a form
       })
       .catch( (error) => {
