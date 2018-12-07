@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-on:submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit">
       <div class="field">
         <div class="control">
           <label v-for="user in usersList" class="radio" :key="user.id">
@@ -20,7 +20,6 @@
         <div class="control">
           <div class="select is-large is-fullwidth">
             <select v-model="selectedCategory">
-              <!--<option disabled value="">Please select a category</option>-->
               <option v-for="item in categoriesList" :value="item.id" :key="item.id">
                 {{ item.name }}
               </option>
@@ -43,47 +42,90 @@
         </div>
       </div>
 
-      <button class="button is-block is-info is-large is-fullwidth"
-        @click="() => this.$emit('form-submitted', this)">
+      <button class="button is-block is-info is-large is-fullwidth">
         Submit
       </button>
+
     </form>
   </div>
 </template>
 
 <script>
+//import axios from 'axios'
 import Datepicker from 'vue-bulma-datepicker'
+import { HTTP } from '../http_common.js'
 
 export default {
   components: {
     Datepicker
   },
-  props: [ "categories", "users" ],
-  computed: {
-    payload: () => {
-      let payload = {
-
-      }
-      return JSON.stringify(payload)
-    }
-  },
   data() {
     return {
-      amount: "",
-      categoriesList: this.categories,
-      usersList: this.users,
-      selectedCategory: 1,
+      usersList: [],
+      categoriesList: [],
       selectedUser: 1,
+      selectedCategory: 1,
+      amount: 0,
       date: (new Date()).toISOString(),
       comment: ""
     }
   },
+  mounted: function () {
+    this.$nextTick( () => {
+      this.categoriesList = this.loadExpenseCategories()
+      this.usersList = this.loadUsersList()
+    })
+  },
   methods: {
     onSubmit() {
-      this.amount = 0
-      this.selectedUser = 1
-      this.selectedCategory = 1
-      this.comment = ""
+      
+      this.addExpense()
+    },
+    loadExpenseCategories() {
+      let result = [];
+      HTTP.get('/categories')
+      .then(function (response) {
+        response.data.forEach( (item) => {
+          result.push(item)
+        })
+      })
+      .catch(function (error) {
+        alert(error)
+      })
+      return result;
+    },
+    loadUsersList() {
+      let result = []
+      HTTP.get('/users')
+      .then(function (response) {
+        response.data.forEach( (item) => {
+          result.push(item)
+        })
+      })
+      .catch(function (error) {
+          alert(error)
+      });
+      return result
+    },
+    addExpense() {
+      let payload = {
+          "date": this.date,
+          "user_id": this.selectedUser,
+          "category_id": this.selectedCategory,
+          "amount": this.amount,
+          "comment": this.comment
+      }
+      HTTP.post('/expenses', payload)
+      .then( () => {
+        this.amount = 0
+        this.selectedCategory = 1
+        this.comment = ""
+        alert("Expense successfully added")
+        //reset necessary fields on a form
+      })
+      .catch( (error) => {
+          alert(error)
+      })
     }
   }
 }

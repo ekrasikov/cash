@@ -11,9 +11,7 @@
                 Simple expense app
             </p>
             <div class="box">
-                <expense-form @form-submitted="addExpense"
-                              :categories="this.loadExpenseCategories()"
-                              :users="this.loadUsers()">
+                <expense-form>
                 </expense-form>
             </div>
           </div>
@@ -25,66 +23,14 @@
 
 <script>
 
-import axios from 'axios';
-
 import ExpenseForm from './components/ExpenseForm.vue';
-import { HTTP } from './http_common.js'
+import ExpenseList from './components/ExpenseList.vue';
 
 export default {
   name: 'app',
   components: {
-    ExpenseForm
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    addExpense(expense) {
-        let payload = {
-            "date": expense.date,
-            "user_id": expense.selectedUser,
-            "category_id": expense.selectedCategory,
-            "amount": expense.amount,
-            "comment": expense.comment
-        }
-        console.log(payload)
-        HTTP.post('/expenses', payload)
-        .then(function (response) {
-            //console.log(response);
-            alert("Expense successfully added")
-        })
-        .catch(function (error) {
-            alert(error)
-        })
-    },
-    loadExpenseCategories() {
-      var result = [];
-      HTTP.get('/categories')
-      .then(function (response) {
-        response.data.forEach(function(item, index, array) {
-          result.push(item);
-        });
-      })
-      .catch(function (error) {
-          console.log(error);
-      });
-      return result;
-    },
-    loadUsers() {
-      let result = []
-      HTTP.get('/users')
-      .then(function (response) {
-        response.data.forEach(function(item, index, array) {
-          result.push(item)
-        });
-      })
-      .catch(function (error) {
-          console.log(error)
-      });
-      return result
-    }
+    ExpenseForm,
+    ExpenseList
   }
 }
 </script>
