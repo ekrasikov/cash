@@ -22,7 +22,7 @@
                   <span aria-hidden="true"></span>
                 </a>
               </div>
-              <div id="myNavbar" class="navbar-menu" :class="{ 'is-active': showNav}"">
+              <div id="myNavbar" class="navbar-menu" :class="{ 'is-active': showNav}">
                 <div class="navbar-start">
                   <router-link to='/' class="navbar-item">
                     Add expense
@@ -52,7 +52,7 @@ export default {
   name: 'app',
   data: () => {
     return {
-  	  showNav: false
+      showNav: false
     }
   },
   components: {
