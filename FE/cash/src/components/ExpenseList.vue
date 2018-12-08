@@ -7,7 +7,7 @@
         <th>category</th>
         <th>user</th>
       </thead>
-      <tr v-for="expense in expenseList">
+      <tr v-for="expense in expenseList" :key="expense.id">
         <td>{{expense.date}}</td>
         <td>{{expense.amount}}</td>
         <td>{{expense.category}}</td>
@@ -24,45 +24,45 @@
 import { HTTP } from '../http_common.js'
 
 export default {
-  data() {
+  data () {
     return {
       expenseList: []
     }
   },
   mounted: function () {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.expenseList = this.loadExpenseList()
     })
   },
   methods: {
-    loadExpenseList() {
-      let result = [];
+    loadExpenseList () {
+      let result = []
       HTTP.get('/expenses')
-      .then(function (response) {
-        response.data.forEach( (item) => {
-          result.push(item)
+        .then(function (response) {
+          response.data.forEach((item) => {
+            result.push(item)
+          })
         })
-      })
-      .catch(function (error) {
-        alert(error)
-      })
-      return result;
-    },
-    deleteExpense(event) {
-      HTTP.delete('/expenses/'+event.target.id)
-      .then( () => {
-        alert("Expense successfully deleted")
-        this.$nextTick( () => {
-          this.expenseList = this.loadExpenseList()
-        })
-      })
-      .catch( (error) => {
+        .catch(function (error) {
           alert(error)
-      })
+        })
+      return result
+    },
+    deleteExpense (event) {
+      HTTP.delete('/expenses/' + event.target.id)
+        .then(() => {
+          alert('Expense successfully deleted')
+          this.$nextTick(() => {
+            this.expenseList = this.loadExpenseList()
+          })
+        })
+        .catch((error) => {
+          alert(error)
+        })
     }
   }
 }
 </script>
 
 <style>
-</style> 
+</style>

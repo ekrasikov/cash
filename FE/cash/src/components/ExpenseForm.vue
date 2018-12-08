@@ -79,15 +79,15 @@ export default {
     onSubmit () {
       this.addExpense()
     },
-    loadExpenseCategories() {
+    loadExpenseCategories () {
       let result = []
       HTTP.get('/categories')
-        .then(function (response) {
+        .then((response) => {
           response.data.forEach((item) => {
-          result.push(item)
+            result.push(item)
+          })
         })
-      })
-        .catch(function (error) {
+        .catch((error) => {
           alert(error)
         })
       return result
@@ -95,35 +95,35 @@ export default {
     loadUsersList () {
       let result = []
       HTTP.get('/users')
-      .then(function (response) {
-        response.data.forEach( (item) => {
-          result.push(item)
+        .then((response) => {
+          response.data.forEach((item) => {
+            result.push(item)
+          })
         })
-      })
-      .catch(function (error) {
+        .catch((error) => {
           alert(error)
-      });
+        })
       return result
     },
     addExpense () {
       let payload = {
-          'date': this.date,
-          'user_id': this.selectedUser,
-          'category_id': this.selectedCategory,
-          'amount': this.amount,
-          'comment': this.comment
+        'date': this.date,
+        'user_id': this.selectedUser,
+        'category_id': this.selectedCategory,
+        'amount': this.amount,
+        'comment': this.comment
       }
       HTTP.post('/expenses', payload)
-      .then( () => {
-        this.amount = 0
-        this.selectedCategory = 1
-        this.comment = ''
-        alert('Expense successfully added')
-        //reset necessary fields on a form
-      })
-      .catch( (error) => {
+        .then(() => {
+          this.amount = 0
+          this.selectedCategory = 1
+          this.comment = ''
+          alert('Expense successfully added')
+          // reset necessary fields on a form
+        })
+        .catch((error) => {
           alert(error)
-      })
+        })
     }
   }
 }
