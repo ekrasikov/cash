@@ -6,3 +6,4 @@ BE/venv/*
 BE/__pycache__*
 BE/.idea*
 .DS_Store*
+.env.local
