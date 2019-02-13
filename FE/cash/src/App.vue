@@ -51,6 +51,7 @@
 import ExpenseForm from './components/ExpenseForm.vue'
 import ExpenseList from './components/ExpenseList.vue'
 import LoginPage from './components/LoginPage.vue'
+import Callback from './components/Callback.vue'
 
 export default {
   name: 'app',
@@ -62,7 +63,8 @@ export default {
   components: {
     ExpenseForm,
     ExpenseList,
-    LoginPage
+    LoginPage,
+    Callback
   }
 }
 </script>

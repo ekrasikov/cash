@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import ExpenseForm from '@/components/ExpenseForm'
 import ExpenseList from '@/components/ExpenseList'
 import LoginPage from '@/components/LoginPage'
+import Callback from '@/components/Callback'
 import auth from '../utils/auth'
 
 Vue.use(Router)
