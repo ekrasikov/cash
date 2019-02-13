@@ -8,10 +8,9 @@
 import auth from '../utils/auth.js'
 
 export default {
-  name: "Callback",
+  name: 'Callback',
   created () {
-    auth.handleAuthentication ()
+    auth.handleAuthentication()
   }
 }
 </script>
-
