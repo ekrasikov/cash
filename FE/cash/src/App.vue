@@ -24,7 +24,10 @@
               </div>
               <div id="myNavbar" class="navbar-menu" :class="{ 'is-active': showNav}">
                 <div class="navbar-start">
-                  <router-link to='/' class="navbar-item">
+                  <router-link to='/login' class="navbar-item">
+                    Login
+                  </router-link>
+                  <router-link to='/add' class="navbar-item">
                     Add expense
                   </router-link>
                   <router-link to='/list' class="navbar-item">
@@ -47,6 +50,7 @@
 
 import ExpenseForm from './components/ExpenseForm.vue'
 import ExpenseList from './components/ExpenseList.vue'
+import LoginPage from './components/LoginPage.vue'
 
 export default {
   name: 'app',
@@ -57,7 +61,8 @@ export default {
   },
   components: {
     ExpenseForm,
-    ExpenseList
+    ExpenseList,
+    LoginPage
   }
 }
 </script>
