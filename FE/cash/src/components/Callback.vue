@@ -1,16 +1,16 @@
 <template>
-  <div class="callback">
-    Logging in...
+  <div>
+    Logged in
   </div>
 </template>
 
 <script>
-import auth from '../utils/auth.js'
 
 export default {
   name: 'Callback',
+  props: ['auth'],
   created () {
-    auth.handleAuthentication()
+    this.auth.handleAuthentication()
   }
 }
 </script>

@@ -4,14 +4,14 @@ import ExpenseForm from '@/components/ExpenseForm'
 import ExpenseList from '@/components/ExpenseList'
 import LoginPage from '@/components/LoginPage'
 import Callback from '@/components/Callback'
-import auth from '../utils/auth'
+import auth from './../utils/auth'
 
 Vue.use(Router)
 
 function requireAuth (to, from, next) {
   if (!auth.isAuthenticated()) {
     next({
-      path: '/login'
+      name: 'Login'
     })
   } else {
     next()
@@ -34,7 +34,7 @@ export default new Router({
     {
       path: '/add',
       name: 'Add expense',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: ExpenseForm
     },
     {

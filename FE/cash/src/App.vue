@@ -25,19 +25,22 @@
               <div id="myNavbar" class="navbar-menu" :class="{ 'is-active': showNav}">
                 <div class="navbar-start">
                   <router-link to='/login' class="navbar-item">
-                    Login
+                    Home
                   </router-link>
-                  <router-link to='/add' class="navbar-item">
+                  <router-link v-if="authenticated" to='/add' class="navbar-item">
                     Add expense
                   </router-link>
-                  <router-link to='/list' class="navbar-item">
+                  <router-link v-if="authenticated" to='/list' class="navbar-item">
                     List expenses
                   </router-link>
                 </div>
               </div>
             </nav>
             <div class="box">
-                <router-view></router-view>
+                <router-view
+                  :auth="auth"
+                  :authenticated="authenticated">
+                </router-view>
             </div>
           </div>
         </div>
@@ -53,11 +56,15 @@ import ExpenseList from './components/ExpenseList.vue'
 import LoginPage from './components/LoginPage.vue'
 import Callback from './components/Callback.vue'
 
+import auth from './utils/auth'
+
 export default {
   name: 'app',
   data: () => {
     return {
-      showNav: false
+      showNav: false,
+      auth,
+      authenticated: auth.authenticated
     }
   },
   components: {
@@ -65,6 +72,23 @@ export default {
     ExpenseList,
     LoginPage,
     Callback
+  },
+  created () {
+    auth.authNotifier.on('authChange', authState => {
+      this.authenticated = authState.authenticated
+    })
+
+    if (auth.getAuthenticatedFlag() === 'true') {
+      auth.renewSession()
+    }
+  },
+  methods: {
+    login () {
+      auth.login()
+    },
+    logout () {
+      auth.logout()
+    }
   }
 }
 </script>
