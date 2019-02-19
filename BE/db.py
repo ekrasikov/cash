@@ -28,13 +28,15 @@ def query(query, params, host, dbname, user, password=""):
     """Makes query to DB."""
     results=""
     conn = connect(host, dbname, user, password)
+
+    # Adding trace subsegment to X-Ray
+    subsegment = xray_recorder.begin_subsegment('query_DB')
+    subsegment.put_annotation('query', format(query))
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     logger.info("Executing query {}".format(query))
 
     cursor.execute(query, params)
-    subsegment = xray_recorder.begin_subsegment('query_DB')
-    subsegment.put_annotation('query', format(query))
     if(query[0]=='S'):
         results = cursor.fetchall()
         cursor.close()
