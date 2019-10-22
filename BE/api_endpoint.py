@@ -35,14 +35,14 @@ import traceback
 import sys
 import os
 
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.core import patch_all
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+# from aws_xray_sdk.core import xray_recorder
+# from aws_xray_sdk.core import patch_all
+# from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
-xray_recorder.configure(service='Cash')
-plugins = ('ElasticBeanstalkPlugin', 'EC2Plugin')
-xray_recorder.configure(plugins=plugins)
-patch_all()
+# xray_recorder.configure(service='Cash')
+# plugins = ('ElasticBeanstalkPlugin', 'EC2Plugin')
+# xray_recorder.configure(plugins=plugins)
+# patch_all()
 
 ROOT_URL = "/cash/v1"
 
@@ -55,7 +55,7 @@ app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
 # Configure Flask middleware for X-Ray
-XRayMiddleware(app, xray_recorder)
+# XRayMiddleware(app, xray_recorder)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -173,6 +173,11 @@ def return_ok():
 #######################################################
 # API endpoints
 #######################################################
+
+@app.route('/health', methods=['GET'])
+def get_health():
+    return Response('{"message": "healthy"}', status=200, mimetype='application/json')
+
 
 @app.route(ROOT_URL + '/expenses', methods=['GET'])
 #@requires_auth
