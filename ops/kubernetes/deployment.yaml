@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cash-be
+spec:
+  replicas: 2
+  selector:
+    matchLables:
+      app: cash-be
+  template:
+    metadata:
+      labels:
+        app: cash-be
+    spec:
+      containers:
+      - image: 026927173535.dkr.ecr.eu-central-1.amazonaws.com/cash-be:v1
+        name: cash-be
+        ports:
+        - containerPort: 8080
+          protocol: TCP
