@@ -47,9 +47,9 @@ import os
 ROOT_URL = "/cash/v1"
 
 # Auth0 API params
-AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
-API_AUDIENCE = os.environ.get('API_AUDIENCE')
-ALGORITHMS = ["RS256"]
+#AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+#API_AUDIENCE = os.environ.get('API_AUDIENCE')
+#ALGORITHMS = ["RS256"]
 
 app = Flask(__name__, static_url_path='/static')
 CORS(app)

@@ -1,6 +1,8 @@
 FE/venv
 FE/venv/*
 FE/.DS_Store
+BE_K8S
+BE_K8S/*
 BE/env
 BE/env/*
 BE/venv
